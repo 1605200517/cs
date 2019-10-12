@@ -352,7 +352,9 @@ class CloudStack(object):
         if response.status_code != 200:
             ddata = response.json()
             k,val = ddata.popitem()
-            errmsg="HTTP %s response from CloudStack.\ncserrorcode %s: %s" % (response.status_code, val['cserrorcode'], val['errortext'])
+            errmsg="HTTP %s response from CloudStack." % response.status_code
+            if "cserrorcode" in val:
+                errmsg = errmsg + "\ncserrorcode %s: %s" % (val['cserrorcode'], val['errortext'])
 
             raise CloudStackApiException(
             errmsg,
